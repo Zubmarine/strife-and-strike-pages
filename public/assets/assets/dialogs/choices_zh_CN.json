@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "defaults": {
+    "layout": "list",
+    "sort": "server",
+    "columns": 2,
+    "maxWidth": 520,
+    "showSource": true,
+    "deferLabel": "稍后选择",
+    "details": ["damage", "damageThisGlobalRound", "cost.mp", "cost.life", "cooldownOnUse"]
+  },
+  "presets": {
+    "cardList": {"sort": "name"},
+    "targets": {"layout": "grid", "sort": "name"},
+    "options": {}
+  },
+  "kinds": {
+    "deckCard": "cardList",
+    "discardPileCard": "cardList",
+    "attackCard": "cardList",
+    "discardCard": "cardList",
+    "takeCard": "cardList",
+    "returnCardToDeck": "cardList",
+    "character": "targets"
+  },
+  "sources": {},
+  "fieldLabels": {
+    "damage": "本次伤害",
+    "damageThisGlobalRound": "本回合累计伤害",
+    "cost.mp": "行动点",
+    "cost.life": "生命开销",
+    "cooldownOnUse": "冷却",
+    "count": "数量",
+    "amount": "数值",
+    "result": "骰点"
+  }
+}

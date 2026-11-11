@@ -31,16 +31,88 @@
 
   <title>Strife &amp; Strike</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    #game-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      background: #f0faf9;
+      color: #163237;
+      font: 16px/1.5 system-ui, sans-serif;
+      text-align: center;
+    }
+    #game-loading-spinner {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto 16px;
+      border: 3px solid rgba(27, 145, 151, .23);
+      border-top-color: #00858d;
+      border-radius: 50%;
+      animation: game-loading-spin .8s linear infinite;
+    }
+    #game-loading-retry {
+      margin-top: 12px;
+      padding: 6px 14px;
+      border: 1px solid currentColor;
+      border-radius: 10px;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    @keyframes game-loading-spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-color-scheme: dark) {
+      #game-loading { background: #112629; color: #d6efee; }
+      #game-loading-spinner { border-top-color: #65d9dc; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #game-loading-spinner { animation: none; }
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <div id="game-loading">
+    <div>
+      <div id="game-loading-spinner" aria-hidden="true"></div>
+      <div id="game-loading-message" role="status">正在加载游戏…</div>
+      <button type="button" id="game-loading-retry" hidden>重新加载</button>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const loading = document.getElementById('game-loading');
+      const spinner = document.getElementById('game-loading-spinner');
+      const message = document.getElementById('game-loading-message');
+      const retry = document.getElementById('game-loading-retry');
+      const slow = window.setTimeout(() => {
+        message.textContent = '游戏仍在加载…';
+        retry.hidden = false;
+      }, 30000);
+      const failed = () => {
+        window.clearTimeout(slow);
+        spinner.hidden = true;
+        message.textContent = '加载失败，请重试';
+        retry.hidden = false;
+      };
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
+      retry.addEventListener('click', () => window.location.reload());
+      window.addEventListener('unhandledrejection', failed);
+      window.addEventListener('sns-web-ready', () => {
+        window.clearTimeout(slow);
+        window.removeEventListener('unhandledrejection', failed);
+        window.requestAnimationFrame(() => loading.remove());
+      }, { once: true });
+
+      const bootstrap = document.createElement('script');
+      bootstrap.async = true;
+      bootstrap.src = 'flutter_bootstrap.js';
+      bootstrap.addEventListener('error', failed, { once: true });
+      document.body.append(bootstrap);
+    })();
+  </script>
 </body>
 </html>

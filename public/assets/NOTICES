@@ -24487,6 +24487,7 @@ path_provider_android
 path_provider_foundation
 path_provider_linux
 path_provider_platform_interface
+standard_message_codec
 vector_math
 
 Copyright 2013 The Flutter Authors

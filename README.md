@@ -2,4 +2,4 @@
 
 Prebuilt Flutter Web assets for Cloudflare Pages.
 
-Production branch: main. Build command: blank. Build output directory: public.
+Play at [https://play.zubmarine.net](Strife and  Strike)
